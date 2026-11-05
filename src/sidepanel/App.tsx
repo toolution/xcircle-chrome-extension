@@ -454,6 +454,12 @@ export function App() {
           {copy.fullStudio} ↗
         </button>
         <nav className="site-links" aria-label="XCircle website">
+          <button
+            type="button"
+            onClick={() => openExternal(SITE_LINKS.extension)}
+          >
+            {locale === 'zh' ? '插件介绍页' : 'Extension page'}
+          </button>
           <button type="button" onClick={() => openExternal(SITE_LINKS.howItWorks)}>
             {copy.howItWorks}
           </button>
