@@ -23,17 +23,30 @@ interface Envelope<T> {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
-    ...init,
-    headers: {
-      ...(init?.body ? { 'Content-Type': 'application/json' } : {}),
-      ...init?.headers,
-    },
-  });
-  const json = (await res.json().catch(() => ({
-    code: -1,
-    message: res.statusText || 'Request failed',
-  }))) as Envelope<T>;
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}${path}`, {
+      ...init,
+      headers: {
+        ...(init?.body ? { 'Content-Type': 'application/json' } : {}),
+        ...init?.headers,
+      },
+    });
+  } catch {
+    throw new ApiError(-1, 'upstream_unavailable');
+  }
+
+  const text = await res.text();
+  let json: Envelope<T>;
+  try {
+    json = JSON.parse(text) as Envelope<T>;
+  } catch {
+    throw new ApiError(
+      -1,
+      res.ok ? 'upstream_unavailable' : 'upstream_unavailable'
+    );
+  }
+
   if (json.code !== 0) {
     throw new ApiError(
       json.code ?? -1,
