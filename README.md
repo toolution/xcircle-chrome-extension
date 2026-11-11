@@ -2,6 +2,10 @@
 
 Chrome MV3 extension for [xcircle.me](https://xcircle.me) — generate, customize, download and share your X/Twitter interaction circle from a side panel.
 
+## Install
+
+[Add to Chrome from the Chrome Web Store](https://chromewebstore.google.com/detail/filficdjpnkokpmfhgcnpommlcfpagpn).
+
 ## Features
 
 - Generate circles from any public X username (calls `https://xcircle.me/api/circle`)
